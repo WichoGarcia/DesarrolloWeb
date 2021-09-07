@@ -1,57 +1,49 @@
-import "./App.css";
-import "./index.css";
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
+import { Home,Array, Timer ,Params} from "./components/NewInput";
+import HomeButton from "./components/useHistory";
 
-function App() {
-  
-  const [date, setDate] = useState(new Date());
-  var [seconds, setSeconds] = useState(0);
-  var [minutes, setMinutes] = useState(0);
-  var [hours, setHours] = useState(0);
-
-  
-  useEffect(() => {
-    let interval = null;
-    
-      interval = setInterval(() => {
-        setSeconds(seconds => seconds + 1);
-        if(seconds===59){
-          setSeconds(seconds=>0)
-          setMinutes(minutes=>minutes+1)
-          if(minutes===59){
-            setMinutes(seconds=>0)
-            setHours(hours=>hours+1)
-          }
-        }
-      }, 1000);
-    
-    return () => clearInterval(interval);
-  });
-
-
-
-  useEffect(() => {
-    var timerID = setInterval( () => tick(), 1000 );
-  
-    return function cleanup() {
-        clearInterval(timerID);
-      };
-   });
-  
-     function tick() {
-      setDate(new Date());
-     }
-  
-     
+export default function BasicExample() {
 
   return (
-    <div>
-      <h1>{hours}:{minutes}:{seconds}</h1>
-      <h2>It is {date.toLocaleTimeString()}.</h2>
-      
-    </div>
+
+    <Router>
+
+      <Link style={{ padding: "30px" }} to="/">Home</Link>
+
+      <Link style={{ padding: "30px" }} to="/array">Array</Link>
+
+      <Link style={{ padding: "30px" }} to="/timer">Timer</Link>
+
+      <Link style={{ padding: "30px" }} to="/page/Ejemplo UseParams">Params</Link>
+
+
+      <hr />
+
+      <HomeButton />
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/array">
+          <Array />
+        </Route>
+        <Route path="/timer">
+          <Timer />
+        </Route>
+        <Route path="/page/:id">
+          <Params />
+        </Route>
+      </Switch>
+
+    </Router>
+
+    
   );
 }
-
-export default App;
